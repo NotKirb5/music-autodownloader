@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoDownload</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Music AutoDownloader</h1>
+      <p class="subtitle">YouTube Music Downloader and add yo playlist in</p>
+    </header>
+
+    <main>
+      <section class="card download-card">
+        <h2>Add Music</h2>
+        <form id="download-form">
+          <div class="field">
+            <label for="url">YouTube URL</label>
+            <input type="text" id="url" placeholder="Playlist, single song, or album link..." autofocus>
+          </div>
+          <div class="field">
+            <label for="playlist">Playlist / Folder name (optional)</label>
+            <input type="text" id="playlist" placeholder="Leave blank for auto-detection">
+            <span class="hint">Detected automatically from YouTube playlists. Singles go to "Singles".</span>
+          </div>
+          <details class="cookie-settings">
+            <summary>YouTube auth (cookies)</summary>
+            <div class="cookie-fields">
+              <div class="field">
+                <label for="cookies-browser">Read cookies from browser</label>
+                <select id="cookies-browser">
+                  <option value="">— None —</option>
+                  <option value="firefox">Firefox</option>
+                  <option value="chrome">Chrome</option>
+                  <option value="chromium">Chromium</option>
+                  <option value="brave">Brave</option>
+                  <option value="opera">Opera</option>
+                  <option value="edge">Edge</option>
+                  <option value="vivaldi">Vivaldi</option>
+                </select>
+                <span class="hint">Reads YouTube cookies directly from your browser profile.</span>
+              </div>
+              <div class="field">
+                <label for="cookies-file">Or: path to cookies.txt file</label>
+                <input type="text" id="cookies-file" placeholder="/path/to/youtube-cookies.txt">
+                <span class="hint">Netscape-format cookies file. Export with a browser extension.</span>
+              </div>
+              <button type="button" id="save-cookies-btn" class="btn-secondary">Save as default</button>
+              <span class="hint" id="cookies-status"></span>
+            </div>
+          </details>
+          <button type="submit" id="submit-btn">Download</button>
+        </form>
+      </section>
+
+      <section class="card progress-card" id="progress-card" hidden>
+        <h2>Progress</h2>
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <p class="progress-text" id="progress-text"></p>
+        <ul class="track-list" id="track-list"></ul>
+      </section>
+
+      <section class="card library-card">
+        <h2>Library</h2>
+        <div class="library-actions">
+          <button id="refresh-library" class="btn-secondary">Refresh</button>
+        </div>
+        <div class="library-list" id="library-list">
+          <p class="empty-state">Loading library...</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
