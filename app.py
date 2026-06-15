@@ -43,7 +43,7 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-MUSIC_DIR = Path(os.path.expanduser("/mnt/styash/Music"))
+MUSIC_DIR = Path(os.path.expanduser("~/Music"))
 TEMP_DIR = Path("/tmp/autodownload")
 CONFIG_DIR = Path(os.path.expanduser("~/.config/autodownload"))
 CONFIG_FILE = CONFIG_DIR / "config.json"
@@ -78,11 +78,10 @@ def get_base_ydl_opts(
     cookies_from_browser: str = None, cookies_file: str = None
 ) -> dict:
     opts = {
-        "format": "bestaudio/best",
         "quiet": True,
         "no_warnings": True,
         "extract_flat": False,
-        "extractor_args": {"youtube": {"player_client": ["tv"]}},
+        "extractor_args": {"youtube": {"player_client": ["android", "ios", "tv"]}},
     }
     if cookies_from_browser:
         opts["cookiesfrombrowser"] = (cookies_from_browser,)
@@ -410,6 +409,7 @@ def download_and_process(
     ydl_opts = dict(base_ydl_opts)
     ydl_opts.update(
         {
+            "format": "bestaudio/best",
             "outtmpl": str(temp_path),
             "postprocessors": [
                 {
