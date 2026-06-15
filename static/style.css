@@ -268,6 +268,53 @@ button {
   overflow-y: auto;
 }
 
+.album-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.album-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  background: var(--bg);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.album-header:hover {
+  background: var(--accent-glow);
+}
+
+.album-arrow {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  transition: transform 0.15s;
+  width: 1em;
+  text-align: center;
+}
+
+.album-name {
+  flex: 1;
+  font-weight: 600;
+}
+
+.album-count {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.album-songs {
+  padding-left: 1.2rem;
+}
+
+.album-songs .library-item {
+  margin-top: 0.2rem;
+}
+
 .library-item {
   display: flex;
   align-items: center;

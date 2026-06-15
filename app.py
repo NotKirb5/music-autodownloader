@@ -722,14 +722,16 @@ def api_task_status(task_id: str):
 @app.route("/api/library")
 def api_library():
     index = build_existing_index(MUSIC_DIR)
-    files = []
+    albums = {}
     for path_str in set(index.values()):
         p = Path(path_str)
         rel = p.relative_to(MUSIC_DIR)
         playlist = str(rel.parent) if str(rel.parent) != "." else "Singles"
-        files.append({"name": p.stem, "playlist": playlist, "path": str(p)})
-    files.sort(key=lambda x: (x["playlist"], x["name"]))
-    return jsonify({"files": files})
+        albums.setdefault(playlist, []).append({"name": p.stem, "path": str(p)})
+    for songs in albums.values():
+        songs.sort(key=lambda x: x["name"])
+    result = [{"name": name, "songs": songs} for name, songs in sorted(albums.items())]
+    return jsonify({"albums": result})
 
 
 @app.route("/api/config", methods=["GET", "POST"])

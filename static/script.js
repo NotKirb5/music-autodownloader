@@ -181,16 +181,39 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const res = await fetch("/api/library");
       const data = await res.json();
-      if (!data.files || data.files.length === 0) {
+      if (!data.albums || data.albums.length === 0) {
         libraryList.innerHTML = '<p class="empty-state">No music in library yet.</p>';
         return;
       }
-      libraryList.innerHTML = data.files.map(f => `
-        <div class="library-item">
-          <span class="library-name">${esc(f.name)}</span>
-          <span class="library-playlist">${esc(f.playlist)}</span>
+      libraryList.innerHTML = data.albums.map(album => `
+        <div class="album-group">
+          <div class="album-header">
+            <span class="album-arrow">\u25B6</span>
+            <span class="album-name">${esc(album.name)}</span>
+            <span class="album-count">${album.songs.length} track${album.songs.length !== 1 ? "s" : ""}</span>
+          </div>
+          <div class="album-songs" style="display:none">
+            ${album.songs.map(s => `
+              <div class="library-item">
+                <span class="library-name">${esc(s.name)}</span>
+              </div>
+            `).join("")}
+          </div>
         </div>
       `).join("");
+      libraryList.querySelectorAll(".album-header").forEach(header => {
+        header.addEventListener("click", () => {
+          const songs = header.nextElementSibling;
+          const arrow = header.querySelector(".album-arrow");
+          if (songs.style.display === "none") {
+            songs.style.display = "block";
+            arrow.textContent = "\u25BC";
+          } else {
+            songs.style.display = "none";
+            arrow.textContent = "\u25B6";
+          }
+        });
+      });
     } catch {
       libraryList.innerHTML = '<p class="empty-state">Failed to load library.</p>';
     }
